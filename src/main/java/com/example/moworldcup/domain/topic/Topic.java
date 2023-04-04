@@ -1,5 +1,7 @@
 package com.example.moworldcup.domain.topic;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.example.moworldcup.domain.BaseTimeEntity;
 
 import jakarta.persistence.EnumType;
@@ -28,22 +30,22 @@ public class Topic extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "integer default 0")
+    @Column(nullable = false)
     private Long view_count;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(255) default 'POST'")
+    @Column(nullable = false)
     private Status status;
-
-
+    
     @Builder
     public Topic(Long registrant_id, String title) {
-        this.title = title;
         this.registrant_id = registrant_id;
+        this.title = title;
+        this.view_count = 0L;
+        this.status = Status.POST;
     }
 
-    public void update(Long registrant_id, String title) {
+    public void update(String title) {
         this.title = title;
-        this.registrant_id = registrant_id;
     }
 }
