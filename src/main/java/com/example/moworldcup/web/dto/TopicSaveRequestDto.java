@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class TopicSaveRequestDto {
-    private Long registrantId;
+    private Integer registrantId;
     private String title;
 
     @Builder
-    public TopicSaveRequestDto(Long registrantId, String title) {
+    public TopicSaveRequestDto(Integer registrantId, String title) {
         this.registrantId = registrantId;
         this.title = title;
     }

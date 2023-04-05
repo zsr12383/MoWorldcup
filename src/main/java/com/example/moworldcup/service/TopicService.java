@@ -21,12 +21,12 @@ public class TopicService {
     private final TopicRepository TopicRepository;
 
     @Transactional
-    public Long save(TopicSaveRequestDto requestDto) {
+    public Integer save(TopicSaveRequestDto requestDto) {
         return TopicRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
-    public Long update(Long id, TopicUpdateRequestDto requestDto) {
+    public Integer update(Integer id, TopicUpdateRequestDto requestDto) {
         Topic topic = TopicRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
         topic.update(requestDto.getTitle());
@@ -34,7 +34,7 @@ public class TopicService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Topic topic = TopicRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
@@ -42,7 +42,7 @@ public class TopicService {
     }
 
     @Transactional(readOnly = true)
-    public TopicResponseDto findById(Long id) {
+    public TopicResponseDto findById(Integer id) {
         Topic entity = TopicRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 

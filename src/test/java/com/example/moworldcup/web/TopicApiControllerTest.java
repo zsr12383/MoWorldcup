@@ -67,7 +67,7 @@ public class TopicApiControllerTest {
     public void Topic_등록된다() throws Exception {
         //given
         String title = "title";
-        Long registrantId = 456L;
+        Integer registrantId = (int)(Math.random()*10);
         TopicSaveRequestDto requestDto = TopicSaveRequestDto.builder()
             .registrantId(registrantId)
             .title(title)
@@ -92,11 +92,11 @@ public class TopicApiControllerTest {
     public void Topic_수정된다() throws Exception {
         //given
         Topic savedTopic = topicRepository.save(Topic.builder()
-            .registrant_id(456L)
+            .registrant_id(0)
             .title("title")
             .build());
 
-        Long updateId = savedTopic.getId();
+        Integer updateId = savedTopic.getId();
         String expectedTitle = "title2";
 
         TopicUpdateRequestDto requestDto = TopicUpdateRequestDto.builder()

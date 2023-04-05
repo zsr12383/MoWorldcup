@@ -28,7 +28,7 @@ public class TopicRepositoryTest {
     public void 토픽_저장_불러오기() {
         //given
         String title = "테스트 토픽";
-        Long registrantId = 456L;
+        Integer registrantId = (int)(Math.random()*10);
 
         topicRepository.save(Topic.builder()
             .registrant_id(registrantId)
@@ -49,7 +49,7 @@ public class TopicRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.of(2019, 6, 4, 0, 0, 0);
         topicRepository.save(Topic.builder()
-            .registrant_id(456L)
+            .registrant_id(0)
             .title("title")
             .build());
         //when

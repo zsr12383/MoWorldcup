@@ -24,23 +24,23 @@ public class TopicApiController {
     private final TopicService topicService;
 
     @PostMapping("/api/v1/topic")
-    public Long save(@RequestBody TopicSaveRequestDto requestDto) {
+    public Integer save(@RequestBody TopicSaveRequestDto requestDto) {
         return topicService.save(requestDto);
     }
 
     @PutMapping("/api/v1/topic/{id}")
-    public Long update(@PathVariable Long id, @RequestBody TopicUpdateRequestDto requestDto) {
+    public Integer update(@PathVariable Integer id, @RequestBody TopicUpdateRequestDto requestDto) {
         return topicService.update(id, requestDto);
     }
 
     @DeleteMapping("/api/v1/topic/{id}")
-    public Long delete(@PathVariable Long id) {
+    public Integer delete(@PathVariable Integer id) {
         topicService.delete(id);
         return id;
     }
 
     @GetMapping("/api/v1/topic/{id}")
-    public TopicResponseDto findById(@PathVariable Long id) {
+    public TopicResponseDto findById(@PathVariable Integer id) {
         return topicService.findById(id);
     }
 

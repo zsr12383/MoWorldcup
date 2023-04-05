@@ -22,26 +22,26 @@ import jakarta.persistence.Id;
 public class Topic extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
-    private Long registrant_id;
+    private Integer registrant_id;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private Long view_count;
+    private Integer view_count;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
     
     @Builder
-    public Topic(Long registrant_id, String title) {
+    public Topic(Integer registrant_id, String title) {
         this.registrant_id = registrant_id;
         this.title = title;
-        this.view_count = 0L;
+        this.view_count = 0;
         this.status = Status.POST;
     }
 

@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 
 @Getter
 public class TopicListResponseDto {
-    private final Long id;
-    private final Long registrantId;
+    private final Integer id;
+    private final Integer registrantId;
     private final String title;
     private final LocalDateTime modifiedDate;
-    private final Long view_count;
+    private final Integer view_count;
 
     public TopicListResponseDto(Topic entity) {
         this.id = entity.getId();

@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Getter
 public class TopicResponseDto {
-    private final Long id;
-    private final Long registrantId;
+    private final Integer id;
+    private final Integer registrantId;
     private final String title;
     private final LocalDateTime modifiedDate;
-    private final Long view_count;
+    private final Integer view_count;
 
     public TopicResponseDto(Topic entity) {
         this.id = entity.getId();
