@@ -1,6 +1,7 @@
 package com.example.moworldcup.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -54,5 +55,15 @@ public class TopicService {
         return TopicRepository.findAllDesc().stream()
             .map(TopicListResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    public boolean isAuthorOfTopic(Integer topicId, Integer userId) {
+        Optional<Topic> optionalPost = TopicRepository.findById(topicId);
+        if (optionalPost.isPresent()) {
+            Topic topic = optionalPost.get();
+            return topic.getId().equals(userId);
+        } else {
+            throw new IllegalArgumentException("해당 주제가 없습니다. id=" + topicId);
+        }
     }
 }
