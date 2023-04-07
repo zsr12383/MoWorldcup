@@ -28,9 +28,8 @@ public class TopicApiController {
     private final TopicService topicService;
 
     @PostMapping("/api/v1/topic")
-    @Secured("isAuthenticated()")
-    public Integer save(@RequestBody TopicSaveRequestDto requestDto) {
-        return topicService.save(requestDto);
+    public Integer save(@RequestBody TopicSaveRequestDto requestDto, @AuthenticationPrincipal User currentUser) {
+        return topicService.save(TopicSaveRequestDto.builder().title(requestDto.getTitle()).registrantId(currentUser.getId()).build());
     }
 
     @PutMapping("/api/v1/topic/{id}")
@@ -55,4 +54,5 @@ public class TopicApiController {
     public List<TopicListResponseDto> findAll() {
         return topicService.findAllDesc();
     }
+
 }
