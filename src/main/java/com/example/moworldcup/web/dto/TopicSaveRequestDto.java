@@ -5,8 +5,10 @@ import com.example.moworldcup.domain.topic.Topic;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class TopicSaveRequestDto {
     private Integer registrantId;

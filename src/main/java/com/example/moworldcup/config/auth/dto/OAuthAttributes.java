@@ -1,6 +1,5 @@
 package com.example.moworldcup.config.auth.dto;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.example.moworldcup.domain.user.Role;
@@ -58,12 +57,15 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>)attributes.get("kakao_account");
-        HashMap<String, String> profile = (HashMap<String, String>) response.get("profile");
-
+        Map<String, Object> profile = (Map<String, Object>) response.get("profile");
+        profile.put("email", response.get("email"));
+        profile.put("username", profile.get("nickname"));
+        profile.put("id", attributes.get("id"));
+        
         return OAuthAttributes.builder()
-            .name(profile.get("nickname"))
-            .email((String)response.get("email"))
-            .attributes(response)
+            .name((String)profile.get("username"))
+            .email((String)profile.get("email"))
+            .attributes(profile)
             .nameAttributeKey(userNameAttributeName)
             .build();
     }

@@ -2,7 +2,7 @@ package com.example.moworldcup.config.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -26,11 +27,10 @@ public class SecurityConfig {
         http
             .cors().and()
             .csrf().disable()
-//            .headers().frameOptions().disable()
-//            .and()
-//            .formLogin().disable()
+            .headers().frameOptions().disable()
+            .and()
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/api/v1/topic/**", "/h2-console/**", "/profile").permitAll()
+                .requestMatchers("/", "/api/v1/topic/**", "/profile"/*, "/login/**", "/login/oauth2/code/kakao"*/).permitAll()
                 .anyRequest().authenticated()
             )
             // .requestMatchers("/api/v1/**")
@@ -42,7 +42,6 @@ public class SecurityConfig {
             .logout()
             .logoutSuccessUrl("/")
             .and()
-//            .oauth2Login(withDefaults());
             .oauth2Login()
             .userInfoEndpoint()
             .userService(customOAuth2UserService);
