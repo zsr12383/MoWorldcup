@@ -61,7 +61,7 @@ public class TopicService {
         Optional<Topic> optionalPost = TopicRepository.findById(topicId);
         if (optionalPost.isPresent()) {
             Topic topic = optionalPost.get();
-            return topic.getRegistrant_id().equals(userId);
+            return topic.getRegistrantId().equals(userId);
         } else {
             throw new IllegalArgumentException("해당 주제가 없습니다. id=" + topicId);
         }

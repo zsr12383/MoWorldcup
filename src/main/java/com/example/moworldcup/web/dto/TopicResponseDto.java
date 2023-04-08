@@ -12,13 +12,13 @@ public class TopicResponseDto {
     private final Integer registrantId;
     private final String title;
     private final LocalDateTime modifiedDate;
-    private final Integer view_count;
+    private final Integer viewCount;
 
     public TopicResponseDto(Topic entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.registrantId = entity.getRegistrant_id();
+        this.registrantId = entity.getRegistrantId();
         this.modifiedDate = entity.getModifiedDate();
-        this.view_count = entity.getView_count();
+        this.viewCount = entity.getViewCount();
     }
 }

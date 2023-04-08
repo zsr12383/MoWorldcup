@@ -22,7 +22,7 @@ public class TopicSaveRequestDto {
 
     public Topic toEntity() {
         return Topic.builder()
-            .registrant_id(registrantId)
+            .registrantId(registrantId)
             .title(title)
             .build();
     }
