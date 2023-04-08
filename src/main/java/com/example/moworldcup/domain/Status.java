@@ -1,4 +1,4 @@
-package com.example.moworldcup.domain.topic;
+package com.example.moworldcup.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

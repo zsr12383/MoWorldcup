@@ -1,4 +1,4 @@
-package com.example.moworldcup.web;
+package com.example.moworldcup.web.topic;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.moworldcup.service.TopicService;
-import com.example.moworldcup.web.dto.TopicListResponseDto;
-import com.example.moworldcup.web.dto.TopicResponseDto;
-import com.example.moworldcup.web.dto.TopicSaveRequestDto;
-import com.example.moworldcup.web.dto.TopicUpdateRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicListResponseDto;
+import com.example.moworldcup.web.topic.dto.TopicResponseDto;
+import com.example.moworldcup.web.topic.dto.TopicSaveRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicUpdateRequestDto;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,9 +28,8 @@ public class TopicApiController {
 
     @PostMapping("/api/v1/topic")
     @PreAuthorize("isAuthenticated()")
-    public Integer save(@RequestBody TopicSaveRequestDto requestDto, @LoginUser SessionUser user) {
-        requestDto.setRegistrantId(user.getId());
-        return topicService.save(requestDto);
+    public Integer save(@RequestBody TopicSaveRequestDto requestDto, @LoginUser SessionUser currentUser) {
+        return topicService.save(requestDto, currentUser.getId());
     }
 
     @PutMapping("/api/v1/topic/{id}")

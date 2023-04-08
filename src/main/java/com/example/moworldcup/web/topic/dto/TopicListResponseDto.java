@@ -1,20 +1,19 @@
-package com.example.moworldcup.web.dto;
+package com.example.moworldcup.web.topic.dto;
+
+import com.example.moworldcup.domain.topic.Topic;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import com.example.moworldcup.domain.topic.Topic;
-
-import lombok.Getter;
-
 @Getter
-public class TopicResponseDto {
+public class TopicListResponseDto {
     private final Integer id;
     private final Integer registrantId;
     private final String title;
     private final LocalDateTime modifiedDate;
     private final Integer viewCount;
 
-    public TopicResponseDto(Topic entity) {
+    public TopicListResponseDto(Topic entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.registrantId = entity.getRegistrantId();

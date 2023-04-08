@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.moworldcup.domain.topic.Topic;
 import com.example.moworldcup.domain.topic.TopicRepository;
-import com.example.moworldcup.web.dto.TopicListResponseDto;
-import com.example.moworldcup.web.dto.TopicResponseDto;
-import com.example.moworldcup.web.dto.TopicSaveRequestDto;
-import com.example.moworldcup.web.dto.TopicUpdateRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicListResponseDto;
+import com.example.moworldcup.web.topic.dto.TopicResponseDto;
+import com.example.moworldcup.web.topic.dto.TopicSaveRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicUpdateRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,15 +22,15 @@ public class TopicService {
     private final TopicRepository TopicRepository;
 
     @Transactional
-    public Integer save(TopicSaveRequestDto requestDto) {
-        return TopicRepository.save(requestDto.toEntity()).getId();
+    public Integer save(TopicSaveRequestDto requestDto, Integer registrantId) {
+        return TopicRepository.save(requestDto.toBuilder().registrantId(registrantId).build()).getId();
     }
 
     @Transactional
     public Integer update(Integer id, TopicUpdateRequestDto requestDto) {
         Topic topic = TopicRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
-        topic.update(requestDto.getTitle());
+        topic.updateTitle(requestDto.getTitle());
         return id;
     }
 

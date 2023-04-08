@@ -1,4 +1,4 @@
-package com.example.moworldcup.web.dto;
+package com.example.moworldcup.web.topic.dto;
 
 import com.example.moworldcup.domain.topic.Topic;
 
@@ -11,20 +11,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TopicSaveRequestDto {
-    private Integer registrantId;
     private String title;
 
     @Builder
-    public TopicSaveRequestDto(Integer registrantId, String title) {
-        this.registrantId = registrantId;
+    public TopicSaveRequestDto(String title) {
         this.title = title;
     }
 
-    public Topic toEntity() {
+    public Topic.TopicBuilder toBuilder() {
         return Topic.builder()
-            .registrantId(registrantId)
-            .title(title)
-            .build();
+            .title(title);
     }
 
 }

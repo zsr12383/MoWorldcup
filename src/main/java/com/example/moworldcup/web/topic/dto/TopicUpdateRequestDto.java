@@ -1,4 +1,4 @@
-package com.example.moworldcup.web.dto;
+package com.example.moworldcup.web.topic.dto;
 
 import lombok.Builder;
 import lombok.Getter;

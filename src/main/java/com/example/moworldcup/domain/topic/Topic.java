@@ -2,6 +2,7 @@ package com.example.moworldcup.domain.topic;
 
 import com.example.moworldcup.domain.BaseTimeEntity;
 
+import com.example.moworldcup.domain.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
@@ -43,7 +44,13 @@ public class Topic extends BaseTimeEntity {
         this.status = Status.POST;
     }
 
-    public void update(String title) {
+    public void addViewCount() {this.viewCount++;}
+    
+    public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 }
