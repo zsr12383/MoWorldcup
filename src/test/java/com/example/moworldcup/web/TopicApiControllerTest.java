@@ -31,8 +31,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.moworldcup.domain.topic.Topic;
 import com.example.moworldcup.domain.topic.TopicRepository;
-import com.example.moworldcup.web.dto.TopicSaveRequestDto;
-import com.example.moworldcup.web.dto.TopicUpdateRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicSaveRequestDto;
+import com.example.moworldcup.web.topic.dto.TopicUpdateRequestDto;
 
 // For mockMvc
 
@@ -70,6 +70,12 @@ public class TopicApiControllerTest {
         topicRepository.deleteAll();
         userRepository.deleteAll();
     }
+    
+    public User saveAndGetUser(User user){
+        userRepository.save(user);
+        List<User> userList = userRepository.findAll();
+        return userList.get(0);
+    }
 
     @Test
     @WithMockUser(roles = "USER")
@@ -81,9 +87,7 @@ public class TopicApiControllerTest {
             .build();
 
         User user = User.builder().name("user").email("test@naver.com").role(Role.USER).build();
-        userRepository.save(user);
-        List<User> userList = userRepository.findAll();
-        user = userList.get(0);
+        user = saveAndGetUser(user);
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", new SessionUser(user));
@@ -120,9 +124,7 @@ public class TopicApiControllerTest {
             .build();
 
         User user = User.builder().name("user").email("test@naver.com").role(Role.USER).build();
-        userRepository.save(user);
-        List<User> userList = userRepository.findAll();
-        user = userList.get(0);
+        user = saveAndGetUser(user);
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", new SessionUser(user));
