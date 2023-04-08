@@ -6,6 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import com.example.moworldcup.config.auth.dto.SessionUser;
+import com.example.moworldcup.domain.user.Role;
+import com.example.moworldcup.domain.user.User;
+import com.example.moworldcup.domain.user.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,6 +44,9 @@ public class TopicApiControllerTest {
     private int port;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private TestRestTemplate restTemplate;
 
     @Autowired
@@ -60,6 +68,7 @@ public class TopicApiControllerTest {
     @After
     public void tearDown() throws Exception {
         topicRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -67,16 +76,23 @@ public class TopicApiControllerTest {
     public void Topic_등록된다() throws Exception {
         //given
         String title = "title";
-        Integer registrantId = (int)(Math.random()*10);
         TopicSaveRequestDto requestDto = TopicSaveRequestDto.builder()
-            .registrantId(registrantId)
             .title(title)
             .build();
+
+        User user = User.builder().name("user").email("test@naver.com").role(Role.USER).build();
+        userRepository.save(user);
+        List<User> userList = userRepository.findAll();
+        user = userList.get(0);
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", new SessionUser(user));
 
         String url = "http://localhost:" + port + "/api/v1/topic";
 
         //when
         mvc.perform(post(url)
+                .session(session)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
             .andExpect(status().isOk());
@@ -84,7 +100,7 @@ public class TopicApiControllerTest {
         //then
         List<Topic> all = topicRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
-        assertThat(all.get(0).getRegistrant_id()).isEqualTo(registrantId);
+        assertThat(all.get(0).getRegistrantId()).isEqualTo(1);
     }
 
     @Test
@@ -92,7 +108,7 @@ public class TopicApiControllerTest {
     public void Topic_수정된다() throws Exception {
         //given
         Topic savedTopic = topicRepository.save(Topic.builder()
-            .registrant_id(0)
+            .registrantId(1)
             .title("title")
             .build());
 
@@ -103,10 +119,19 @@ public class TopicApiControllerTest {
             .title(expectedTitle)
             .build();
 
+        User user = User.builder().name("user").email("test@naver.com").role(Role.USER).build();
+        userRepository.save(user);
+        List<User> userList = userRepository.findAll();
+        user = userList.get(0);
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", new SessionUser(user));
+
         String url = "http://localhost:" + port + "/api/v1/topic/" + updateId;
 
         //when
         mvc.perform(put(url)
+                .session(session)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
             .andExpect(status().isOk());

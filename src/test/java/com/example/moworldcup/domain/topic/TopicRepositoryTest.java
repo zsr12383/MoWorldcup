@@ -31,7 +31,7 @@ public class TopicRepositoryTest {
         Integer registrantId = (int)(Math.random()*10);
 
         topicRepository.save(Topic.builder()
-            .registrant_id(registrantId)
+            .registrantId(registrantId)
             .title(title)
             .build());
 
@@ -41,7 +41,7 @@ public class TopicRepositoryTest {
         //then
         Topic topic = topicList.get(0);
         assertThat(topic.getTitle()).isEqualTo(title);
-        assertThat(topic.getRegistrant_id()).isEqualTo(registrantId);
+        assertThat(topic.getRegistrantId()).isEqualTo(registrantId);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class TopicRepositoryTest {
         //given
         LocalDateTime now = LocalDateTime.of(2019, 6, 4, 0, 0, 0);
         topicRepository.save(Topic.builder()
-            .registrant_id(0)
+            .registrantId(0)
             .title("title")
             .build());
         //when

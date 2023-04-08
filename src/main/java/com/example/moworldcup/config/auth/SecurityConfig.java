@@ -30,7 +30,7 @@ public class SecurityConfig {
             .headers().frameOptions().disable()
             .and()
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/api/v1/topic/**", "/profile"/*, "/login/**", "/login/oauth2/code/kakao"*/).permitAll()
+                .requestMatchers("/", "/api/v1/topic/**", "/profile").permitAll()
                 .anyRequest().authenticated()
             )
             // .requestMatchers("/api/v1/**")
