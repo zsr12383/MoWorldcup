@@ -29,7 +29,7 @@ public class TopicService {
     @Transactional
     public Integer update(Integer id, TopicUpdateRequestDto requestDto) {
         Topic topic = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
         topic.updateTitle(requestDto.getTitle());
         return id;
     }
@@ -37,7 +37,7 @@ public class TopicService {
     @Transactional
     public void delete(Integer id) {
         Topic topic = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
 
         TopicRepository.delete(topic);
     }
@@ -45,7 +45,7 @@ public class TopicService {
     @Transactional(readOnly = true)
     public TopicResponseDto findById(Integer id) {
         Topic entity = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
 
         return new TopicResponseDto(entity);
     }
@@ -63,7 +63,7 @@ public class TopicService {
             Topic topic = optionalPost.get();
             return topic.getRegistrantId().equals(userId);
         } else {
-            throw new IllegalArgumentException("해당 주제가 없습니다. id=" + topicId);
+            throw new IllegalArgumentException("해당 주제의 작성자가 아닙니다. id=" + topicId);
         }
     }
 }
