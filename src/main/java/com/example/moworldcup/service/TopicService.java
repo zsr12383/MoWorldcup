@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.moworldcup.domain.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class TopicService {
     private final TopicRepository TopicRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Integer save(TopicSaveRequestDto requestDto, Integer registrantId) {
@@ -29,7 +31,7 @@ public class TopicService {
     @Transactional
     public Integer update(Integer id, TopicUpdateRequestDto requestDto) {
         Topic topic = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
         topic.updateTitle(requestDto.getTitle());
         return id;
     }
@@ -37,7 +39,7 @@ public class TopicService {
     @Transactional
     public void delete(Integer id) {
         Topic topic = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
 
         TopicRepository.delete(topic);
     }
@@ -45,16 +47,20 @@ public class TopicService {
     @Transactional(readOnly = true)
     public TopicResponseDto findById(Integer id) {
         Topic entity = TopicRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
-
+                .orElseThrow(() -> new IllegalArgumentException("해당 주제가 없습니다. id=" + id));
         return new TopicResponseDto(entity);
     }
 
     @Transactional(readOnly = true)
     public List<TopicListResponseDto> findAllDesc() {
         return TopicRepository.findAllDesc().stream()
-            .map(TopicListResponseDto::new)
-            .collect(Collectors.toList());
+                .map(topic -> {
+                    var user = userRepository.findById(topic.getRegistrantId());
+                    if (user.isPresent())
+                        return TopicListResponseDto.builder().entity(topic).registrantName(user.get().getName()).build();
+                    return TopicListResponseDto.builder().entity(topic).registrantName("deleted user").build();
+                })
+                .collect(Collectors.toList());
     }
 
     public boolean isAuthorOfTopic(Integer topicId, Integer userId) {
