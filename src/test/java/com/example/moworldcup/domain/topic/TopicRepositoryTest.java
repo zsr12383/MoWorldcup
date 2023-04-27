@@ -26,7 +26,6 @@ public class TopicRepositoryTest {
 
     @Test
     public void 토픽_저장_불러오기() {
-        //given
         String title = "테스트 토픽";
         Integer registrantId = (int)(Math.random()*10);
 
@@ -35,10 +34,8 @@ public class TopicRepositoryTest {
             .title(title)
             .build());
 
-        //when
         List<Topic> topicList = topicRepository.findAll();
 
-        //then
         Topic topic = topicList.get(0);
         assertThat(topic.getTitle()).isEqualTo(title);
         assertThat(topic.getRegistrantId()).isEqualTo(registrantId);
@@ -46,16 +43,14 @@ public class TopicRepositoryTest {
 
     @Test
     public void BaseTimeEntity_등록() {
-        //given
         LocalDateTime now = LocalDateTime.of(2019, 6, 4, 0, 0, 0);
         topicRepository.save(Topic.builder()
             .registrantId(0)
             .title("title")
             .build());
-        //when
+
         List<Topic> topicList = topicRepository.findAll();
 
-        //then
         Topic topic = topicList.get(0);
 
         System.out.println(

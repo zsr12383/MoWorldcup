@@ -79,7 +79,7 @@ public class TopicApiControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void Topic_등록된다() throws Exception {
+    public void Topic_Registered() throws Exception {
         //given
         String title = "title";
         TopicSaveRequestDto requestDto = TopicSaveRequestDto.builder()
@@ -97,7 +97,7 @@ public class TopicApiControllerTest {
         //when
         mvc.perform(post(url)
                 .session(session)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
             .andExpect(status().isOk());
 
@@ -109,7 +109,7 @@ public class TopicApiControllerTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void Topic_수정된다() throws Exception {
+    public void Topic_Modified() throws Exception {
         //given
         Topic savedTopic = topicRepository.save(Topic.builder()
             .registrantId(1)
@@ -134,7 +134,7 @@ public class TopicApiControllerTest {
         //when
         mvc.perform(put(url)
                 .session(session)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
             .andExpect(status().isOk());
 
